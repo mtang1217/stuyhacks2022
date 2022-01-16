@@ -6,7 +6,7 @@ Members: Matthew Tang and Dylan Tang
 
 Space Crisis is a space-themed game where you can dodge meteors in space, test your typing skills and play funny songs. There are 3 game modes which are called “Among Asteroids”, “Rocket Type” and “Cycle Music”.  Our game uses many themes from the popular game “Among Us”.  The main menu has music, and the other game modes have music that is randomized.  All of the music is from our favorite games.  To close the game, press Esc or the X in the top right corner.
 
-##How To Play:
+## How To Play:
 ### Among Asteroids (Left Arrow Key):
 To access Among Asteroids, use the left-arrow key on the main menu.  Among Asteroids is a side-scrolling game where you control a rocket ship and avoid the oncoming asteroids.  You start with 5 lives, which lower when you get hit by an asteroid.  When your lives reach 0, you lose.  To win, reach 2000 points.
 
