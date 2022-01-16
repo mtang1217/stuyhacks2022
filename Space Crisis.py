@@ -1,4 +1,3 @@
-#import pygame
 import pygame
 import random
 import time
@@ -101,6 +100,14 @@ spacecolor = (0,34,64)
 lives = 5
 gamemode = 0
 switch = 1
+clock = pygame.time.Clock()
+mcycle = 0
+m = False
+count = 0
+score = 0
+end = False
+starttime = 0
+endtime = 0
 
 screen = pygame.display.set_mode([X,Y])
 
@@ -117,25 +124,33 @@ all_sprites.add(player)
 
 
 
-pygame.display.set_caption('GAME')
+pygame.display.set_caption('Space Crisis')
 
 font = pygame.font.Font('freesansbold.ttf', 32)
-lbtext = font.render('LEFT', True, black)
-rbtext = font.render('Rocket Type', True, black)
-dbtext = font.render('DOWN', True, black)
+startfont = pygame.font.Font('Debrosee.ttf', 32)
+lbtext = startfont.render(' Among Asteroids ', True, white, spacecolor)
+rbtext = startfont.render(' Rocket Type ', True, white, spacecolor)
+dbtext = startfont.render(' Cycle Music ', True, white, spacecolor)
 lbRect = lbtext.get_rect()
-lbRect.center = (X / 3, Y / 2)
+lbRect.center = (X / 3, Y / 5 * 3)
 rbRect = rbtext.get_rect()
-rbRect.center = (X / 3 * 2, Y / 2)
+rbRect.center = (X / 3 * 2, Y / 5 * 3)
 dbRect = dbtext.get_rect()
-dbRect.center = (X / 2, Y / 3 * 2)
+dbRect.center = (X / 2, Y / 5 * 4)
 
+gamefont = pygame.font.Font('Freedom.ttf', 120)
+title = gamefont.render('SPACE CRISIS', True, (0, 250, 230))
+titleRect = title.get_rect()
+titleRect.center = (X / 2, Y / 3)
 
 def word():
     lst=["hi","bye", "vent", "suspicious", "button", "meeting", "astronaut", "roll", "bear", "red", "blue" ,"hall", "person", "panda",
          "mouse", "food", "imposter", "search", "look", "fun", "type", "monkey", "crewmate", "sus", "innocent", "cyan", "green", "yellow",
          "generator", "security", "amogus", "ship", "thrusters", "navigation", "computer", "game", "space", "stars", "learning", "turtle",
-         "penguin", "bruh", "pikachu", "pokemon", "headphones", "keyboard"]
+         "penguin", "bruh", "pikachu", "pokemon", "headphones", "keyboard", "type", "asteroid", "planet", "sun", "moon", "solar", "lunar",
+         "system", "galaxy", "milky", "way", "stars", "star", "among us", "amogus", "lime", "white", "black", "orange", "pink", "purple",
+         "lie", "discuss", "vote", "believe", "earth", "charizard"
+         ]
     ran=random.choice(lst)
     return ran
     
@@ -163,9 +178,13 @@ wordlength = len(typethis)
 
 def start():
     screen.fill(white)
+    spacebg = pygame.image.load("space.jpg")
+    spacebg = pygame.transform.scale(spacebg, (900, 600))
+    screen.blit(spacebg, (0, 0))
     screen.blit(lbtext, lbRect)
     screen.blit(rbtext, rbRect)
     screen.blit(dbtext, dbRect)
+    screen.blit(title, titleRect)
     pygame.mixer.music.load("1 - Everybody Falls (Fall Guys Theme).mp3")
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(0.7)
@@ -175,7 +194,7 @@ def musicstart():
     pygame.mixer.music.load("Roundstart.mp3")
     pygame.mixer.music.play()
     time.sleep(2.5)
-    randomint = random.randint(0, 7)
+    randomint = random.randint(0, 8)
     if randomint == 0:
         pygame.mixer.music.load("1 - Everybody Falls (Fall Guys Theme).mp3")
     elif randomint == 1:
@@ -192,10 +211,46 @@ def musicstart():
         pygame.mixer.music.load("Die For You ft. Grabbitz Instrumental.mp3")
     elif randomint == 7:
         pygame.mixer.music.load("2 - Fall 'N' Roll.mp3")
+    elif randomint == 8:
+        pygame.mixer.music.load("Among Us Drip.mp3")
+    pygame.mixer.music.play(-1)
+
+
+def musiccycle(m):
+    pygame.mixer.music.pause()
+    if m == 0:
+        pygame.mixer.music.load("1 - Everybody Falls (Fall Guys Theme).mp3")
+    elif m == 1:
+        pygame.mixer.music.load("1-03 - Battlefield.mp3")
+    elif m == 2:
+        pygame.mixer.music.load("1-14 GREEN GREENS (Kirby's Dream Land).mp3")
+    elif m == 3:
+        pygame.mixer.music.load("3 - Survive the Fall.mp3")
+    elif m == 4:
+        pygame.mixer.music.load("01 Home.mp3")
+    elif m == 5:
+        pygame.mixer.music.load("06 Match Loading.mp3")
+    elif m == 6:
+        pygame.mixer.music.load("Die For You ft. Grabbitz Instrumental.mp3")
+    elif m == 7:
+        pygame.mixer.music.load("2 - Fall 'N' Roll.mp3")
+    elif m == 8:
+        pygame.mixer.music.load("Among Us Drip.mp3")
     pygame.mixer.music.play(-1)
 
 def gameend():
     screen.fill(black)
+    wallpaper = pygame.image.load("among-us-wallpaper.jpg")
+    wallpaper = pygame.transform.scale(wallpaper, (900, 500))
+    screen.blit(wallpaper, (0, 0))
+    defeat = gamefont.render('Mission', True, (255, 0, 100))
+    defeatRect = defeat.get_rect()
+    defeatRect.center = (X / 2, Y / 4)
+    screen.blit(defeat, defeatRect)
+    defeat2 = gamefont.render('Failed', True, (255, 0, 100))
+    defeat2Rect = defeat2.get_rect()
+    defeat2Rect.center = (X / 2, Y / 2)
+    screen.blit(defeat2, defeat2Rect)
     pygame.display.flip()
     pygame.mixer.music.pause()
     randomint = random.randint(0, 1)
@@ -207,6 +262,17 @@ def gameend():
 
 def gamevictory():
     screen.fill(black)
+    wallpaper = pygame.image.load("among-us-wallpaper.jpg")
+    wallpaper = pygame.transform.scale(wallpaper, (900, 500))
+    screen.blit(wallpaper, (0, 0))
+    victory = gamefont.render('Mission', True, (0, 255, 150))
+    victoryRect = victory.get_rect()
+    victoryRect.center = (X / 2, Y / 4)
+    screen.blit(victory, victoryRect)
+    victory2 = gamefont.render('Success', True, (0, 255, 150))
+    victory2Rect = victory2.get_rect()
+    victory2Rect.center = (X / 2, Y / 2)
+    screen.blit(victory2, victory2Rect)
     pygame.display.flip()
     pygame.mixer.music.pause()
     randomint = random.randint(0, 3)
@@ -226,19 +292,8 @@ def setup():
     background = pygame.image.load("background.jfif")
     screen.blit(background, (0, 0))
     
-clock = pygame.time.Clock()
 
 start()
-
-m = False
-
-count = 0
-score = 0
-end = False
-
-starttime = 0
-endtime = 0
-
 running = True
 while running:
     for event in pygame.event.get():
@@ -253,7 +308,7 @@ while running:
                     elif m == True:
                         m = False
                         pygame.mixer.music.set_volume(0.7)
-        elif event.type == ADDENEMY:
+        elif event.type == ADDENEMY and gamemode == 1:
             new_enemy = Enemy()
             enemies.add(new_enemy)
             all_sprites.add(new_enemy)
@@ -264,25 +319,28 @@ while running:
             if event.type == KEYDOWN:
                 if event.key == K_e:
                     gamemode = 100
-                    print(gamemode)
                 if event.key == K_LEFT:
-                    #screen.blit(ltext, lRect)
                     gamemode = 1
-                    screen.fill(black)
+                    loading = pygame.image.load("among-us-loading.jpg")
+                    loading = pygame.transform.scale(loading, (900, 500))
+                    screen.blit(loading, (0, 0))
                     pygame.display.flip()
                 elif event.key == K_RIGHT:
-                    #screen.blit(rtext, rRect)
                     gamemode = 2
-                    screen.fill(black)
+                    loading = pygame.image.load("among-us-loading.jpg")
+                    loading = pygame.transform.scale(loading, (900, 500))
+                    screen.blit(loading, (0, 0))
                     pygame.display.flip()
                 elif event.key == K_DOWN:
-                    #screen.blit(dtext, dRect)
-                    gamemode = 3
-                    screen.fill(black)
-                    pygame.display.flip()
+                    if mcycle != 8:
+                        mcycle += 1
+                    else:
+                        mcycle = 0
+                    musiccycle(mcycle)
+                    
     #You found the easter egg!
     if gamemode == 100:
-        screen.fill(spacecolor)
+        setup()
         hiddentext = font.render("You found the easter egg!", True, black, white)
         hiddenRect = hiddentext.get_rect()
         hiddenRect.center = (X / 2, Y / 2)
@@ -299,7 +357,6 @@ while running:
         pygame.mixer.music.play(-1)
         time.sleep(5)
         gamemode = 1
-        screen.fill(black)
     
     if gamemode == 1:
         setup()
@@ -352,20 +409,24 @@ while running:
         screen.blit(ttext,tRect)
         for event in pygame.event.get():
             if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
                 if pygame.key.name(event.key) == typethis[wordlength-charcount:len(typethis)][0]:
                     charcount -= 1
                 elif event.key == K_SPACE and " " == typethis[wordlength-charcount:len(typethis)][0]:
                     charcount -= 1
+            elif event.type == pygame.QUIT:
+                running = False
 
         if charcount < 1:
             endtime = time.time()
             t = round(endtime - starttime, 2)
-            print("Time = " + str(t))
-            print("Wordlength = " + str(wordlength))
+            print("Time = " + str(t) + " seconds")
+            print("Wordlength = " + str(wordlength) + " characters")
             wpm = round((wordlength / 5)/(t / 60))
             print("WPM = " + str(wpm))
             gamevictory()
-            timetext = font.render("Words Per Minute: " + str(wpm), True, white)
+            timetext = font.render("Words Per Minute: " + str(wpm), True, spacecolor, white)
             timeRect = timetext.get_rect()
             timeRect.center = (X / 2, Y / 3 * 2)
             screen.blit(timetext, timeRect)
