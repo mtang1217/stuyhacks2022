@@ -168,7 +168,7 @@ def lsttostr(string):
 def strtolst(list):
     st= " ".join(list)
     return st
-typethis = sentence(random.randint(6, 8))
+typethis = sentence(random.randint(6, 7))
 strthis=lsttostr(typethis)
 print(strthis)
 
