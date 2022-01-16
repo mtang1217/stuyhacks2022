@@ -6,19 +6,19 @@ Members: Matthew Tang and Dylan Tang
 
 Space Crisis is a space-themed game where you can dodge meteors in space, test your typing skills and play funny songs. There are 3 game modes which are called “Among Asteroids”, “Rocket Type” and “Cycle Music”.  Our game uses many themes from the popular game “Among Us”.  The main menu has music, and the other game modes have music that is randomized.  All of the music is from our favorite games.  To close the game, press Esc or the X in the top right corner.
 
-## Among Asteroids (Left Arrow Key):
+### Among Asteroids (Left Arrow Key):
 To access Among Asteroids, use the left-arrow key on the main menu.  Among Asteroids is a side-scrolling game where you control a rocket ship and avoid the oncoming asteroids.  You start with 5 lives, which lower when you get hit by an asteroid.  When your lives reach 0, you lose.  To win, reach 2000 points.
 
-## Rocket Type (Right Arrow Key):
+### Rocket Type (Right Arrow Key):
 To access Rocket Type, use the right-arrow key on the main menu.  Rocket Type is a typing game that gives you around 7 randomized words to type.  When all of the words are typed, you win.  The game tells you an average number of words per minute based on your time.
 
-## Cycle Music (Down Arrow Key):
+### Cycle Music (Down Arrow Key):
 To cycle through the songs, use the down-arrow key on the main menu.  This cycles through 9 songs.
 
-## Mute key (M Key):
+### Mute key (M Key):
 This works for every game mode except Rocket Type, so that it doesn’t interfere with typing.
 
-## Easter Egg key ([Redacted] Key):
+### Easter Egg key ([Redacted] Key):
 This activates special music and sets the game mode to an “endless” version Among Asteroids.  You start with 100 lives, and the game does not end until your lives reach 0. (The key to activate this is between W and R.)
 
 ## About the Game:
